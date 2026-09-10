@@ -1,0 +1,11 @@
+replicaCount: 1
+
+image:
+  repository: nganudeep99/service-a
+  tag: "1.0"
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
