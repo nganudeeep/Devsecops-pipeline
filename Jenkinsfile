@@ -3,12 +3,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout'){
-            steps{
-                checkout scm
-            }
-        }
-
         stage('Test Service A') {
             steps {
                 sh 'cd microservices/service-a && python -m pytest'
