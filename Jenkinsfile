@@ -86,11 +86,19 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Push Service A') {
             steps {
                 sh '''
                 docker push nganudeep99/service-a:1.0
+                '''
+            }
+        }
+
+        stage('Push Service B') {
+            steps {
+                sh ''' 
+                docker push nganudeep99/service-b:1.0
                 '''
             }
         }
