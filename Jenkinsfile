@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_TAG = "${GIT_COMMIT.take(7)}"
+    }
+
     stages {
 
         stage('Test Service A') {
@@ -31,7 +35,7 @@ pipeline {
             steps {
                 sh '''
                 docker build \
-                  -t nganudeep99/service-a:1.0 \
+                  -t nganudeep99/service-a:${IMAGE_TAG} \
                   ./microservices/service-a
                 '''
             }
@@ -41,7 +45,7 @@ pipeline {
             steps {
                 sh '''
                 docker build \
-                  -t nganudeep99/service-b:1.0 \
+                  -t nganudeep99/service-b:${IMAGE_TAG} \
                   ./microservices/service-b
                 '''
             }
@@ -54,7 +58,7 @@ pipeline {
                   --severity HIGH,CRITICAL \
                   --ignore-unfixed \
                   --exit-code 1 \
-                  nganudeep99/service-a:1.0
+                  nganudeep99/service-a:${IMAGE_TAG}
                 '''
             }
         }
@@ -66,7 +70,7 @@ pipeline {
                   --severity HIGH,CRITICAL \
                   --ignore-unfixed \
                   --exit-code 1 \
-                  nganudeep99/service-b:1.0
+                  nganudeep99/service-b:${IMAGE_TAG}
                 '''
             }
         }
@@ -90,7 +94,7 @@ pipeline {
         stage('Push Service A') {
             steps {
                 sh '''
-                docker push nganudeep99/service-a:1.0
+                docker push nganudeep99/service-a:${IMAGE_TAG}
                 '''
             }
         }
@@ -98,7 +102,7 @@ pipeline {
         stage('Push Service B') {
             steps {
                 sh ''' 
-                docker push nganudeep99/service-b:1.0
+                docker push nganudeep99/service-b:${IMAGE_TAG}
                 '''
             }
         }
