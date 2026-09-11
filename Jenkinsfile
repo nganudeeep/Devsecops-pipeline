@@ -86,5 +86,13 @@ pipeline {
                 }
             }
         }
+        
+        stage('Push Service A') {
+            steps {
+                sh '''
+                docker push nganudeep99/service-a:1.0
+                '''
+            }
+        }
     }
 }
