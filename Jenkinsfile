@@ -53,6 +53,7 @@ pipeline {
                 trivy image \
                   --severity HIGH,CRITICAL \
                   --ignore-unfixed \
+                  --exit-code 1 \
                   nganudeep99/service-a:1.0
                 '''
             }
@@ -64,6 +65,7 @@ pipeline {
                 trivy image \
                   --severity HIGH,CRITICAL \
                   --ignore-unfixed \
+                  --exit-code 1 \
                   nganudeep99/service-b:1.0
                 '''
             }
