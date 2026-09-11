@@ -1,6 +1,7 @@
 pipeline {
     agent any
 
+    //image tag used with git commit id
     environment {
         IMAGE_TAG = "${GIT_COMMIT.take(7)}"
     }
