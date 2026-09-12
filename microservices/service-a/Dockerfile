@@ -11,6 +11,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Stage 2: Runtime
 FROM python:3.12-slim-bookworm
 
+RUN apt-get update && apt-get upgrade -y --no-install-recommends && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
