@@ -107,5 +107,33 @@ pipeline {
                 '''
             }
         }
+
+// Update GitOps repo with the new image SHA
+        stage('Update GitOps') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'github-gitops-push',
+                    usernameVariable: 'GITHUB_USERNAME',
+                    passwordVariable: 'GITHUB_TOKEN'
+                )]) {
+                    sh '''
+                    git clone https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/nganudeeep/Devsecops-gitops.git gitops
+
+                    sed -i.bak "s/tag: \\"1.0\\"/tag: \\"${IMAGE_TAG}\\"/" gitops/environments/dev/values-service-a.yaml
+                    sed -i.bak "s/tag: \\"1.0\\"/tag: \\"${IMAGE_TAG}\\"/" gitops/environments/dev/values-service-b.yaml
+
+                    rm -f gitops/environments/dev/*.bak
+
+                    cd gitops
+                    git config user.name "Jenkins"
+                    git config user.email "jenkins@localhost"
+
+                    git add environments/dev/values-service-a.yaml environments/dev/values-service-b.yaml
+                    git commit -m "Update dev images to ${IMAGE_TAG}"
+                    git push origin main
+                    '''
+                }
+            }
+        }
     }
 }
