@@ -25,4 +25,4 @@ venv/
 !*.tfvars.example
 
 # Logs
-*.log
+*.logterraform/terraform-state-backup.json
