@@ -120,8 +120,8 @@ pipeline {
                     rm -rf gitops
                     git clone https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/nganudeeep/Devsecops-gitops.git gitops
 
-                    sed -i.bak "s/tag: \\"1.0\\"/tag: \\"${IMAGE_TAG}\\"/" gitops/environments/dev/values-service-a.yaml
-                    sed -i.bak "s/tag: \\"1.0\\"/tag: \\"${IMAGE_TAG}\\"/" gitops/environments/dev/values-service-b.yaml
+                    sed -i.bak -E "s/tag: \".*\"/tag: \"${IMAGE_TAG}\"/" gitops/environments/dev/values-service-a.yaml
+                    sed -i.bak -E "s/tag: \".*\"/tag: \"${IMAGE_TAG}\"/" gitops/environments/dev/values-service-b.yaml
 
                     rm -f gitops/environments/dev/*.bak
 
